@@ -1,4 +1,6 @@
-flask==3.0.3
+Flask==3.0.3
 spacy==3.7.6
 scikit-learn==1.5.2
 gunicorn==23.0.0
+numpy==1.26.4
+blis==0.7.11
