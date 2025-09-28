@@ -1,0 +1,128 @@
+{
+  "subjects": {
+    "general_info": {
+      "questions": [
+        {
+          "patterns": ["what is ncst", "tell me about ncst", "define ncst", "describe ncst"],
+          "answer": "The National College of Science and Technology (NCST) is a private educational institution in Dasmariñas, Cavite, Philippines. It offers programs in engineering, information technology, business, health sciences, and various technical-vocational courses."
+        },
+        {
+          "patterns": ["where is ncst located", "ncst address", "where can i find ncst"],
+          "answer": "NCST is located at Aguinaldo Highway, Dasmariñas, Cavite, Philippines."
+        },
+        {
+          "patterns": ["when was ncst founded", "ncst history", "founding year of ncst"],
+          "answer": "The National College of Science and Technology was founded in 1998 in Dasmariñas, Cavite."
+        },
+        {
+          "patterns": ["what is the vision of ncst", "ncst vision"],
+          "answer": "The vision of NCST is to be recognized as one of the leading institutions in providing globally competitive education in science, technology, and business."
+        },
+        {
+          "patterns": ["what is the mission of ncst", "ncst mission"],
+          "answer": "NCST’s mission is to produce competent, innovative, and morally upright professionals who contribute to national development through science, technology, and business education."
+        }
+      ]
+    },
+    "courses": {
+      "questions": [
+        {
+          "patterns": ["what courses does ncst offer", "list of ncst programs", "ncst courses"],
+          "answer": "NCST offers various courses in Engineering (Computer, Electronics, Electrical, Mechanical, Civil), Information Technology (BSIT, Computer Science), Business (Accountancy, Business Administration), Health Sciences (Nursing, Pharmacy, Medical Technology), and Technical-Vocational programs."
+        },
+        {
+          "patterns": ["does ncst offer it", "is there bsit in ncst", "ncst computer courses"],
+          "answer": "Yes, NCST offers computer-related programs including Bachelor of Science in Information Technology (BSIT), BS in Computer Science, and BS in Computer Engineering."
+        },
+        {
+          "patterns": ["does ncst offer engineering", "ncst engineering programs"],
+          "answer": "Yes, NCST offers Engineering programs including Computer Engineering, Electronics Engineering, Electrical Engineering, Mechanical Engineering, and Civil Engineering."
+        },
+        {
+          "patterns": ["does ncst offer nursing", "ncst nursing program", "is there health sciences in ncst"],
+          "answer": "Yes, NCST offers health-related courses including Nursing, Pharmacy, and Medical Technology."
+        },
+        {
+          "patterns": ["does ncst have business programs", "ncst accountancy", "ncst business courses"],
+          "answer": "Yes, NCST offers business-related programs such as Accountancy, Business Administration, Marketing Management, and Entrepreneurship."
+        }
+      ]
+    },
+    "facilities": {
+      "questions": [
+        {
+          "patterns": ["what facilities does ncst have", "ncst facilities", "describe ncst campus"],
+          "answer": "NCST has modern facilities including computer laboratories, engineering workshops, libraries, science laboratories, multimedia classrooms, study lounges, a gymnasium, and student activity centers."
+        },
+        {
+          "patterns": ["does ncst have a library", "ncst library"],
+          "answer": "Yes, NCST has a well-equipped library that provides books, journals, e-resources, and research materials for students and faculty."
+        },
+        {
+          "patterns": ["does ncst have laboratories", "ncst science labs"],
+          "answer": "Yes, NCST has laboratories for Computer Science, Engineering, Chemistry, Physics, and Health Sciences."
+        },
+        {
+          "patterns": ["does ncst have internet access", "is wifi available in ncst"],
+          "answer": "Yes, NCST provides internet access and Wi-Fi hotspots in designated areas of the campus."
+        }
+      ]
+    },
+    "student_services": {
+      "questions": [
+        {
+          "patterns": ["what student services does ncst offer", "ncst student support"],
+          "answer": "NCST provides student services such as guidance and counseling, registrar services, scholarships and financial aid, medical and dental services, and career development support."
+        },
+        {
+          "patterns": ["does ncst have scholarships", "ncst scholarships"],
+          "answer": "Yes, NCST offers various scholarships and financial assistance programs for qualified students."
+        },
+        {
+          "patterns": ["does ncst have a guidance office", "guidance counseling in ncst"],
+          "answer": "Yes, NCST has a Guidance and Counseling Office that provides academic, personal, and career guidance to students."
+        },
+        {
+          "patterns": ["does ncst have clubs", "ncst organizations", "student life in ncst"],
+          "answer": "Yes, NCST has different student organizations and clubs for academics, sports, arts, and leadership development."
+        }
+      ]
+    },
+    "policies": {
+      "questions": [
+        {
+          "patterns": ["what are the admission requirements of ncst", "ncst admission", "ncst enrollment"],
+          "answer": "Admission requirements at NCST typically include a completed application form, Form 138 (Report Card), Certificate of Good Moral Character, Birth Certificate, and ID photos."
+        },
+        {
+          "patterns": ["does ncst have a dress code", "ncst uniform policy"],
+          "answer": "Yes, NCST enforces a uniform policy. Students are required to wear prescribed uniforms depending on their program."
+        },
+        {
+          "patterns": ["what is the grading system of ncst", "ncst passing grade"],
+          "answer": "NCST uses a standard grading system where 75% is the passing grade. Academic performance is evaluated through quizzes, exams, projects, and class participation."
+        },
+        {
+          "patterns": ["what are ncst school hours", "ncst class schedule"],
+          "answer": "NCST classes typically run from 7:30 AM to 9:00 PM depending on the program and year level. Some programs also have Saturday classes."
+        }
+      ]
+    },
+    "contact": {
+      "questions": [
+        {
+          "patterns": ["how to contact ncst", "ncst contact details"],
+          "answer": "You can contact NCST through their official website, Facebook page, or by calling their trunkline at (046) 123-4567."
+        },
+        {
+          "patterns": ["ncst website", "official website of ncst"],
+          "answer": "The official website of NCST is https://www.ncst.edu.ph/"
+        },
+        {
+          "patterns": ["ncst facebook page", "ncst social media"],
+          "answer": "Yes, NCST maintains an official Facebook page where announcements, schedules, and updates are regularly posted."
+        }
+      ]
+    }
+  }
+}
