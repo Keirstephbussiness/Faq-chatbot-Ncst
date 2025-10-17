@@ -1,0 +1,192 @@
+{
+  "subjects": {
+    "NATIONAL_EMERGENCY": {
+      "questions": [
+        {
+          "patterns": [
+            "what's the emergency number in the philippines",
+            "unified 911 number philippines",
+            "who do i call for police fire medical in PH"
+          ],
+          "answer": "Unified Emergency Hotline — 911. One-number national emergency dispatch for police, fire, and medical."
+        },
+        {
+          "patterns": [
+            "philippine red cross hotline",
+            "red cross emergency number philippines",
+            "who do i call for blood or red cross help"
+          ],
+          "answer": "Philippine Red Cross — 143 (national). Use for blood services, disaster response, volunteer assistance and referrals."
+        },
+        {
+          "patterns": [
+            "poison control philippines number",
+            "national poison hotline",
+            "who to call for poisoning"
+          ],
+          "answer": "UP-PGH National Poison Management & Control Center — (02) 8524-1078 / 0966-718-9904. Call immediately for suspected poisoning."
+        }
+      ]
+    },
+    "CITY_OF_DASMARIÑAS": {
+      "questions": [
+        {
+          "patterns": [
+            "dasmariñas emergency operations number",
+            "dasma city emergency phone",
+            "city of dasmariñas eoc phone"
+          ],
+          "answer": "City of Dasmariñas Emergency Operations Center — (046) 435-0183 / (046) 481-0555 / mobile: 0917-721-8825. Use for city-level coordination and disaster queries."
+        },
+        {
+          "patterns": [
+            "dasmariñas municipal ambulance number",
+            "dasma ambulance contact",
+            "public ambulance dasmariñas"
+          ],
+          "answer": "Dasmariñas City Ambulance Center — (046) 686-3339 / (046) 851-0995 (verify availability during major incidents)."
+        }
+      ]
+    },
+    "POLICE": {
+      "questions": [
+        {
+          "patterns": [
+            "dasmariñas police number",
+            "dasma pnp phone",
+            "police station dasmariñas contact"
+          ],
+          "answer": "Dasmariñas Component City Police Station — (046) 416-2924 / (046) 416-0254. Mobile hotlines: 0998-598-5598 / 0956-800-3329."
+        },
+        {
+          "patterns": [
+            "local police post salitran number",
+            "pnp pcp salitran contact",
+            "police substation salitran"
+          ],
+          "answer": "PNP PCP 3 (Salitran) — (046) 506-2091 (community/substation contact)."
+        }
+      ]
+    },
+    "FIRE": {
+      "questions": [
+        {
+          "patterns": [
+            "dasmariñas fire department number",
+            "bfp dasmariñas phone",
+            "who to call for fire in dasmariñas"
+          ],
+          "answer": "Bureau of Fire Protection - Dasmariñas — (046) 416-0875 / (046) 424-2537. Mobile lines: 0995-336-9534."
+        },
+        {
+          "patterns": [
+            "cavite provincial fire number",
+            "bfp cavite directory",
+            "who to call for provincial fire assistance"
+          ],
+          "answer": "BFP Cavite (provincial directory) — (046) 471-4777 (provincial coordination)."
+        }
+      ]
+    },
+    "HOSPITALS_AND_ER": {
+      "questions": [
+        {
+          "patterns": [
+            "dlsumc emergency number",
+            "de la salle medical center contact",
+            "dlsumc er phone"
+          ],
+          "answer": "De La Salle University Medical Center (DLSUMC) Emergency — +63 46 481-8000 (ER extensions may vary). 24/7 tertiary hospital in Dasmariñas."
+        },
+        {
+          "patterns": [
+            "st paul hospital cavite number",
+            "st paul dasmariñas er",
+            "st paul cavite contact"
+          ],
+          "answer": "St. Paul Hospital Cavite — (046) 481-8270 / (046) 481-8271 / (046) 481-8272. Private hospital with ER services."
+        },
+        {
+          "patterns": [
+            "dasmariñas city hospital number",
+            "pagamutan ng dasmariñas phone",
+            "municipal hospital dasmariñas contact"
+          ],
+          "answer": "Dasmariñas City Medical Center / Pagamutan ng Dasmariñas — (046) 481-4400 / (046) 435-0180 (municipal health facility)."
+        }
+      ]
+    },
+    "AMBULANCE_AND_EMS": {
+      "questions": [
+        {
+          "patterns": [
+            "hospital ambulance dasmariñas",
+            "dlsumc ambulance number",
+            "who to call for ambulance in dasma"
+          ],
+          "answer": "DLSUMC Ambulance / Emergency Medicine Dept — call +63 46 481-8000 and request ambulance; mobile dispatch numbers vary by shift."
+        },
+        {
+          "patterns": [
+            "private ambulance dasmariñas",
+            "datastat ambulance phone",
+            "book private ambulance dasma"
+          ],
+          "answer": "Datastat Ambulance Services (private) — 0956-431-6452 / 0908-771-5988 / 0998-991-9950. Fees apply; DOH accreditation recommended to confirm."
+        },
+        {
+          "patterns": [
+            "red cross ambulance dasmariñas",
+            "prc dasma ambulance number",
+            "philippine red cross dasmariñas contact"
+          ],
+          "answer": "Philippine Red Cross - Dasmariñas unit — (046) 402-6267 / 0916-245-0527. Volunteer ambulance and blood unit referrals."
+        }
+      ]
+    },
+    "UTILITIES": {
+      "questions": [
+        {
+          "patterns": [
+            "meralco emergency number",
+            "power outage dasmariñas number",
+            "electricity emergency meralco"
+          ],
+          "answer": "Meralco hotline — 16211 (general). Local Meralco contact lines may be provided by district offices; call 16211 to report outages and hazards."
+        },
+        {
+          "patterns": [
+            "pldt customer care",
+            "globe customer service emergency",
+            "who to call for phone outage"
+          ],
+          "answer": "Telecom providers — PLDT: 171 (landline), Globe: 211 (Globe mobile). Use provider support to report service outages."
+        }
+      ]
+    },
+    "RED_CROSS_AND_BLOOD": {
+      "questions": [
+        {
+          "patterns": [
+            "where to donate blood dasmariñas",
+            "red cross blood dasma",
+            "blood bank dasmariñas phone"
+          ],
+          "answer": "Philippine Red Cross - Dasmariñas Blood Collecting Unit — (046) 402-6267 / 0916-245-0527. Call for blood drives and transfusion referrals."
+        }
+      ]
+    },
+    "COMMUNITY_AND_BARANGAY": {
+      "questions": [
+        {
+          "patterns": [
+            "barangay health station dasmariñas phone",
+            "zone iv health center contact",
+            "salitran barangay health number"
+          ],
+          "answer": "Sample barangay health stations (examples): Zone IV Health Center (near DLSUMC), Salitran I Barangay Health Station, Paliparan Barangay Health Station — call city EOC (046) 435-0183 to request specific barangay clinic numbers or 'add barangay list'."
+        }
+      ]
+    }
+  }
+}
