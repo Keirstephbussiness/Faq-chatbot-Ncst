@@ -198,7 +198,7 @@ def chat():
         logger.info(f"Best match score: {best_score}")
         
         # Set threshold for minimum similarity
-        threshold = 0.2
+        threshold = 0.3  # ← CHANGED: Slightly higher for chat (was 0.2)
         
         if best_score < threshold:
             response = "Sorry, I don't have information about that specific topic. Could you please rephrase your question or ask about admissions, fees, courses, placements, hostel facilities, or contact information?"
@@ -215,6 +215,71 @@ def chat():
             "error": "Internal server error",
             "answer": "Sorry, I encountered an error while processing your request. Please try again."
         }), 500
+
+# ========== SUGGESTIONS ENDPOINT - NEW! (ADD THIS) ==========
+@app.route("/suggest", methods=["POST", "OPTIONS"])
+def suggest():
+    """Get search suggestions based on partial user input"""
+    
+    # Handle preflight OPTIONS request for CORS
+    if request.method == "OPTIONS":
+        response = jsonify({"status": "ok"})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+        return response
+    
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"suggestions": []})
+            
+        partial_input = data.get("query", "").strip().lower()
+        if len(partial_input) < 2:  # Only suggest if 2+ characters
+            return jsonify({"suggestions": []})
+        
+        logger.info(f"Suggestion query: {partial_input}")
+        
+        # Check if vectorizer is ready
+        if vectorizer is None or question_vectors is None:
+            return jsonify({"suggestions": []})
+        
+        # Transform partial input
+        partial_vec = vectorizer.transform([partial_input])
+        similarities = cosine_similarity(partial_vec, question_vectors).flatten()
+        
+        # Get TOP 5 matches above threshold
+        threshold = 0.1  # Lower threshold for suggestions (looser than chat)
+        top_indices = []
+        for i, score in enumerate(similarities):
+            if score > threshold:
+                top_indices.append((i, score))
+        
+        # Sort by score and take top 5
+        top_indices.sort(key=lambda x: x[1], reverse=True)
+        top_indices = top_indices[:5]
+        
+        # Create clean suggestions (just the key phrases)
+        suggestions = []
+        for idx, score in top_indices:
+            # Extract main keywords from the pattern string
+            pattern = questions_list[idx]
+            # Take first few meaningful words
+            clean_suggestion = " ".join(pattern.split()[:4])  # Limit to 4 words
+            if clean_suggestion not in [s["text"] for s in suggestions]:
+                suggestions.append({
+                    "text": clean_suggestion,
+                    "full_pattern": pattern,
+                    "confidence": round(float(score), 2)
+                })
+        
+        logger.info(f"Generated {len(suggestions)} suggestions")
+        return jsonify({"suggestions": suggestions})
+        
+    except Exception as e:
+        logger.error(f"Error in suggest endpoint: {str(e)}")
+        return jsonify({"suggestions": []}), 500
+# ========== END SUGGESTIONS ==========
 
 @app.route("/reload", methods=["POST"])
 def reload_knowledge():
