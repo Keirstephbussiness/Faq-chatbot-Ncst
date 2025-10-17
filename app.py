@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -13,13 +13,15 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app, origins=["*"])
 
+# 🔥 NEW: Secret key for sessions (context)
+app.secret_key = os.urandom(24)  # Or set to a fixed string in prod
+
 knowledge_folder = "knowledge"
-questions_list = []
-answers_list = []
+kb_items = []  # 🔥 IMPROVED: Structured storage for better suggestions
 
 def load_knowledge_base():
     """Load knowledge base from JSON files"""
-    global questions_list, answers_list
+    global kb_items
     
     logger.info(f"Loading knowledge base from {knowledge_folder}")
     
@@ -28,8 +30,7 @@ def load_knowledge_base():
         create_sample_knowledge()
         return
     
-    questions_list = []
-    answers_list = []
+    kb_items = []
     json_files_found = 0
     
     for file in os.listdir(knowledge_folder):
@@ -48,8 +49,12 @@ def load_knowledge_base():
                         answer = item.get("answer", "")
                         
                         if patterns and answer:
-                            questions_list.append(" ".join(patterns))
-                            answers_list.append(answer)
+                            # 🔥 IMPROVED: Store representative (first pattern) for suggestions
+                            kb_items.append({
+                                "joined_patterns": " ".join(patterns),
+                                "representative": patterns[0],
+                                "answer": answer
+                            })
                 
             except json.JSONDecodeError as e:
                 logger.error(f"Error reading {file}: {e}")
@@ -60,31 +65,39 @@ def load_knowledge_base():
         logger.warning("No JSON files found")
         create_sample_knowledge()
     
-    logger.info(f"✅ LOADED: {len(questions_list)} questions from {json_files_found} files")
+    logger.info(f"✅ LOADED: {len(kb_items)} questions from {json_files_found} files")
 
 def create_sample_knowledge():
     """Create sample knowledge base"""
-    global questions_list, answers_list
+    global kb_items
     sample_data = [
         {"patterns": ["hello", "hi", "hey"], "answer": "Hello! NCST FAQ Assistant here!"},
         {"patterns": ["contact", "phone"], "answer": "Call NCST: (046) 416-4779"}
     ]
-    questions_list = [" ".join(item["patterns"]) for item in sample_data]
-    answers_list = [item["answer"] for item in sample_data]
+    kb_items = [{
+        "joined_patterns": " ".join(item["patterns"]),
+        "representative": item["patterns"][0],
+        "answer": item["answer"]
+    } for item in sample_data]
 
-# 🔥 FIXED: Build vectorizer with BETTER ERROR HANDLING
+# 🔥 IMPROVED: Vectorizer with n-grams for better phrase matching
 def build_vectorizer():
     """Build or rebuild the TF-IDF vectorizer"""
     global vectorizer, question_vectors
     
-    if not questions_list:
+    if not kb_items:
         logger.error("❌ No questions to build vectorizer")
         return False
     
     try:
-        vectorizer = TfidfVectorizer(stop_words='english', lowercase=True, max_features=2000)
-        question_vectors = vectorizer.fit_transform(questions_list)
-        logger.info(f"✅ VECTORIZER BUILT: {len(questions_list)} questions")
+        vectorizer = TfidfVectorizer(
+            stop_words='english', 
+            lowercase=True, 
+            max_features=5000,  # Increased
+            ngram_range=(1, 3)  # 🔥 NEW: Captures phrases like "fee structure"
+        )
+        question_vectors = vectorizer.fit_transform([item["joined_patterns"] for item in kb_items])
+        logger.info(f"✅ VECTORIZER BUILT: {len(kb_items)} questions")
         return True
     except Exception as e:
         logger.error(f"❌ Vectorizer error: {e}")
@@ -94,24 +107,23 @@ def build_vectorizer():
 load_knowledge_base()
 vectorizer = None
 question_vectors = None
-build_vectorizer()  # 🔥 FIXED: Always rebuild after load
+build_vectorizer()
 
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({
         "status": "online",
-        "questions_loaded": len(questions_list),
-        "version": "1.1.0-FIXED"
+        "questions_loaded": len(kb_items),
+        "version": "1.2.0-IMPROVED"
     })
 
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({
         "status": "healthy",
-        "questions_count": len(questions_list),
-        "answers_count": len(answers_list),
+        "questions_count": len(kb_items),
         "vectorizer_ready": vectorizer is not None,
-        "sample_question": questions_list[0] if questions_list else "none"
+        "sample_rep": kb_items[0]["representative"] if kb_items else "none"
     })
 
 @app.route("/chat", methods=["POST", "OPTIONS"])
@@ -134,18 +146,31 @@ def chat():
         if vectorizer is None or question_vectors is None:
             return jsonify({"answer": "System loading... Try again!"})
         
-        user_vec = vectorizer.transform([user_input])
+        # 🔥 NEW: Add context from session history (last 3 exchanges)
+        if 'history' not in session:
+            session['history'] = []
+        
+        # Build contextual input: append last 3 messages (user + bot)
+        context = " ".join(session['history'][-6:])  # Last 3 exchanges (6 msgs)
+        full_input = f"{context} {user_input}".strip()
+        
+        user_vec = vectorizer.transform([full_input])
         similarities = cosine_similarity(user_vec, question_vectors).flatten()
         best_idx = similarities.argmax()
         best_score = similarities[best_idx]
         
-        logger.info(f"📊 Best score: {best_score:.3f}")
+        logger.info(f"📊 Best score: {best_score:.3f} (with context: '{context[:50]}...')")
         
-        # 🔥 FIXED: Lower threshold for better matching
-        if best_score < 0.15:  # Was 0.3 → Now 0.15
-            response = "Sorry, try: contact, phone, ncst address, or courses"
+        if best_score < 0.1:  # Lowered for better recall
+            response = "Sorry, I couldn't find a match. Try rephrasing or ask about admissions, fees, courses, etc. What was your previous question about?"
         else:
-            response = answers_list[best_idx]
+            response = kb_items[best_idx]["answer"]
+        
+        # 🔥 NEW: Update history
+        session['history'].append(user_input)
+        session['history'].append(response)
+        if len(session['history']) > 20:  # Limit history
+            session['history'] = session['history'][-20:]
         
         logger.info(f"✅ A: {response[:50]}...")
         return jsonify({"answer": response})
@@ -154,7 +179,7 @@ def chat():
         logger.error(f"❌ Chat error: {e}")
         return jsonify({"answer": "Error! Try again."}), 500
 
-# 🔥 FIXED SUGGESTIONS - NOW WORKS 100%!
+# 🔥 IMPROVED SUGGESTIONS: Use representative phrases!
 @app.route("/suggest", methods=["POST", "OPTIONS"])
 def suggest():
     if request.method == "OPTIONS":
@@ -167,7 +192,7 @@ def suggest():
     try:
         data = request.get_json()
         partial_input = data.get("query", "").strip().lower()
-        if len(partial_input) < 1:  # 🔥 FIXED: Now works with 1+ char
+        if len(partial_input) < 1:
             return jsonify({"suggestions": []})
         
         if vectorizer is None or question_vectors is None:
@@ -176,24 +201,19 @@ def suggest():
         partial_vec = vectorizer.transform([partial_input])
         similarities = cosine_similarity(partial_vec, question_vectors).flatten()
         
-        # 🔥 FIXED: Lower threshold + NO duplicate filter
-        threshold = 0.05  # Was 0.1 → Now 0.05
+        threshold = 0.03  # 🔥 LOWERED: More sensitive for partials
         top_indices = [(i, score) for i, score in enumerate(similarities) if score > threshold]
         top_indices.sort(key=lambda x: x[1], reverse=True)
-        top_indices = top_indices[:10]  # More suggestions
+        top_indices = top_indices[:10]
         
         suggestions = []
         seen_texts = set()
         for idx, score in top_indices:
-            pattern = questions_list[idx]
-            # 🔥 FIXED: Better text extraction
-            words = pattern.split()[:3]
-            text = " ".join(words)
-            
-            if text not in seen_texts:
-                seen_texts.add(text)
+            rep = kb_items[idx]["representative"]
+            if rep not in seen_texts:
+                seen_texts.add(rep)
                 suggestions.append({
-                    "text": text,
+                    "text": rep,  # 🔥 IMPROVED: Full natural phrase!
                     "confidence": round(float(score), 2)
                 })
         
@@ -204,27 +224,24 @@ def suggest():
         logger.error(f"❌ Suggest error: {e}")
         return jsonify({"suggestions": []}), 500
 
-# 🔥 FIXED RELOAD - NOW WORKS 100%!
 @app.route("/reload", methods=["POST"])
 def reload_knowledge():
     try:
         logger.info("🔄 RELOADING...")
         load_knowledge_base()
         
-        # 🔥 CRITICAL FIX: Reset globals FIRST
         global vectorizer, question_vectors
         vectorizer = None
         question_vectors = None
         
-        # Then rebuild
         success = build_vectorizer()
         
         if success:
-            logger.info(f"✅ RELOAD SUCCESS: {len(questions_list)} questions")
+            logger.info(f"✅ RELOAD SUCCESS: {len(kb_items)} questions")
             return jsonify({
                 "status": "success",
                 "message": "Reloaded successfully!",
-                "questions_count": len(questions_list),
+                "questions_count": len(kb_items),
                 "files": len([f for f in os.listdir(knowledge_folder) if f.endswith('.json')])
             })
         else:
