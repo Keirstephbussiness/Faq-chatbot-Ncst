@@ -1,0 +1,36 @@
+{
+  "subjects": {
+    "contacts": {
+      "questions": [
+        {
+          "patterns": ["ncst contact number", "ncst phone", "call ncst", "ncst telephone"],
+          "answer": "The main contact number for NCST Dasmariñas is (046) 416-4779. For enrollment inquiries, call (046) 416-6278 or mobile 0918 888 6278. Fax: (046) 416-0166."
+        },
+        {
+          "patterns": ["ncst email", "email ncst", "contact email ncst", "ncst inquiries email"],
+          "answer": "For general inquiries, email [email protected]. For job applications and HR, email [email protected]."
+        },
+        {
+          "patterns": ["ncst address", "ncst location", "where is ncst", "ncst campus address"],
+          "answer": "NCST Main Campus is located at Amafel Bldg., Aguinaldo Highway, Dasmariñas, Cavite 4114, Philippines. NCST IIRT Campus: Brgy. San Agustin II, Aguinaldo Highway, Dasmariñas City."
+        },
+        {
+          "patterns": ["ncst website", "official ncst site", "ncst online", "ncst homepage"],
+          "answer": "The official website of NCST is https://ncst.edu.ph/. Visit for admissions, programs, and updates."
+        },
+        {
+          "patterns": ["ncst facebook", "ncst social media", "follow ncst", "ncst page"],
+          "answer": "Follow NCST on Facebook at https://www.facebook.com/NCST.OfficialPage/ for announcements, events, and student updates."
+        },
+        {
+          "patterns": ["ncst iirt contact", "iirt phone", "ncst training center contact"],
+          "answer": "For NCST Institute of Industrial Research and Training (IIRT), contact (046) 424-3013 or (046) 432-2387."
+        },
+        {
+          "patterns": ["how to contact ncst", "reach ncst", "ncst contact details", "ncst communication"],
+          "answer": "Contact NCST via phone (046) 416-4779, email [email protected], or visit the main campus at Amafel Bldg., Aguinaldo Highway, Dasmariñas. Check https://ncst.edu.ph/ for more."
+        }
+      ]
+    }
+  }
+}
